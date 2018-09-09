@@ -1,36 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package cs2.reapandsow.ass.pkg1;
+// Steve Louis
+// CS2 Travis Meade 
+// Reap And Sow Assignment 1
+// 09/08/2018
 
-
-/**
- *
- * @author Ideapad
- */
 import java.util.Scanner;
 import java.lang.Math;
 public class CS2ReapAndSowAss1 {
 
-    /**
-     * @param args the command line arguments
-     */
-    
     public static int n;
     public static int m;
     public static int input[][];
     public static int pastSolutionsBinaryRow[];
     public static int pastSolutionsBinaryCollum[];
-    
-        
+           
     public static void main(String[] args) {
-        
-        // TODO code application logic here
-        //TO read the inputs into the program.
-        
-        System.out.print("Please enter inputs");
+               
+        // TO read the inputs into the program.
         Scanner sc = new Scanner(System.in);
        
         n = sc.nextInt();
@@ -48,15 +33,11 @@ public class CS2ReapAndSowAss1 {
                 input[i][j] = sc.nextInt();
             }
         }
-        
-        
-        if(solveFunction(0, 0) == true){
-            
-            System.out.print("Solution found\n");
-        }  
-        else{
-            System.out.print("Solution not found\n");
-        }
+          
+        // In case the grid is unsolvalble.
+        if(!solveFunction(0, 0)){
+            System.out.print("impossible\n");
+        }       
     }
               
     public static boolean solveFunction(int row, int collum){
@@ -176,17 +157,19 @@ public class CS2ReapAndSowAss1 {
          
         int inUsedRow = 0;
        
+        // Adds up number of square in the current row  with value of 1.
         for(int i = 0; i < m; i++){
          
             if(input[currentRow][i] == 1){
                 inUsedRow++;             
             }
         }
-         
+        
+        // For cases where the row is at the end and contains too many values of 1.
         if(inUsedRow > rowMax){
             return false;
         }
-
+        // For cases where the row is at then and does not contain enough values of 1.
         else if((currentCollum == m - 1) && (inUsedRow < rowMax) ){
             return false;
         }       
@@ -200,7 +183,8 @@ public class CS2ReapAndSowAss1 {
     public static boolean checkCollumMax(int input[][],int currentRow, int currentCollum, int collumMax){
       
         int inUsedCollum = 0;
-       
+        
+        // Adds up number of square in the current collum  with value of 1.
         for(int i = 0; i < n; i++){
 
             if(input[i][currentCollum] == 1){
@@ -208,10 +192,11 @@ public class CS2ReapAndSowAss1 {
             }
         }
         
+        // For cases where the collum is at the end and contains too many values of 1.
         if(inUsedCollum > collumMax){
             return false;
         }
-        
+        // For cases where the collum is at then and does not contain enough values of 1.
         else if((currentRow == n - 1) && (inUsedCollum < collumMax)){
             return false;
         }      
@@ -229,6 +214,7 @@ public class CS2ReapAndSowAss1 {
         // Solutions for rows are only tore and compared at the end of the rows.
         if(currentCollum == m - 1 ){
             
+            // The collum number is treated as the exponennt,and the value 1 0r 0 gives it the binary property.
             for(int i = 0; i < m; i++){
                 
                 currentRowBinary += input[currentRow][i] * Math.pow(2, i); 
@@ -240,8 +226,8 @@ public class CS2ReapAndSowAss1 {
                     return false;
                 }              
             }
-         
-             pastSolutionsBinaryRow[currentRow] = currentRowBinary;          
+            
+            pastSolutionsBinaryRow[currentRow] = currentRowBinary;          
         }
         return true;
     }
@@ -257,6 +243,7 @@ public class CS2ReapAndSowAss1 {
         // Solutions for collums are only tore and compared at the end of the collums.
          if(currentRow == n - 1){
             
+            // The row number is treated as the exponennt,and the value 1 0r 0 gives it the binary property.
             for(int i = 0; i < n; i++){
                 currentCollumBinary += input[i][currentCollum] * Math.pow(2, i);                
             }
@@ -266,35 +253,27 @@ public class CS2ReapAndSowAss1 {
                 if(pastSolutionsBinaryCollum[i] == currentCollumBinary){
                     return false;
                 }              
-            }         
-             pastSolutionsBinaryCollum[currentCollum] = currentCollumBinary;  
+            } 
+            
+            pastSolutionsBinaryCollum[currentCollum] = currentCollumBinary;  
         }
      return true;
     }
     
     // Prints thse current state of the grid to the screen.
-   
     public static void printOutput(int n, int m, int output[][], 
             int  pastSolutionsBinaryRow[], int pastSolutionsBinaryCollum[] ){
-        
-       int squaresWorked = 0;
-       
+            
        System.out.print("\n");
        
+        // Goes to the ith row and jth collum and prints the value there.
         for(int i = 0; i < n; i++){
-        
+            
             for(int j = 0; j < m; j++){
                 
                 System.out.printf("%d ", input[i][j]);
-                
-                if(input[i][j] == 1){
-                    
-                    squaresWorked++;
-                }
             }
             System.out.print("\n");
         }
-       
-        System.out.printf("Total squares worked %d / %d\n", squaresWorked, n*m);      
     }
 }
