@@ -35,9 +35,8 @@ public class CS2ReapAndSowAss1 {
         }
           
         // In case the grid is unsolvalble.
-        if(!solveFunction(0, 0)){
-            System.out.print("impossible\n");
-        }       
+        if(!solveFunction(0, 0))
+            System.out.print("impossible\n");             
     }
               
     public static boolean solveFunction(int row, int collum){
@@ -62,33 +61,32 @@ public class CS2ReapAndSowAss1 {
         if(input[row][collum] != -1  ){
              
             if(!isValid(input, pastSolutionsBinaryRow, pastSolutionsBinaryCollum, row, collum))
-                     return false;
+                return false;
                  
             if(!isValid(input, pastSolutionsBinaryRow, pastSolutionsBinaryCollum, row, collum))
-                    return false;
+                return false;
                                        
            return solveFunction(row, collum + 1);
         }
                
-        /* Inserts and checks the validity of the values 1 and 0 in the current 
-           position in the grid */
-        
+        /* 	Inserts and checks the validity of the values 1 and 0 in the current 
+           	position in the grid 
+        */
         for(int i = 1; i >= 0; i--){
             
             input[row][collum] = i;
             
            // printOutput(n, m, input, pastSolutionsBinaryRow, pastSolutionsBinaryCollum);
-            
             if(isValid(input, pastSolutionsBinaryRow, pastSolutionsBinaryCollum, row, collum)){
                 
-                if(solveFunction(row, collum + 1)){
-                    return true;
-                }
+                if(solveFunction(row, collum + 1))
+                    return true;              
             }         
         }   
         
-        /* when neither 1 or 0 worked, the value of the current position is reset
-           to -1 and we return false in order to backtrack to a previous move. */
+        /* 	when neither 1 or 0 worked, the value of the current position is reset
+           	to -1 and we return false in order to backtrack to a previous move.
+        */
         input[row][collum] = -1; 
         
         return false;
@@ -99,14 +97,14 @@ public class CS2ReapAndSowAss1 {
         then this function returns false.
     */
     public static boolean isValid(int input[][],int pastSolutionsBinaryRow[], 
-            int  pastSolutionsBinaryCollum[], int row, int collum){
+          							  int  pastSolutionsBinaryCollum[], int row, int collum){
         
         if(!checkCollumConti(input, row, collum) || !checkRowConti(input, row, collum) 
                              || !checkRowMax(input, row, collum, m/2) || !checkCollumMax(input, row, collum, n/2)
                              || !checkCollumPastSolutions(pastSolutionsBinaryCollum,input,row ,collum)
-                             || !checkRowPastSolutions(pastSolutionsBinaryRow,input,row ,collum)){         
+                             || !checkRowPastSolutions(pastSolutionsBinaryRow,input,row ,collum))         
             return false;
-        }            
+                   
         return true;
     }
         
@@ -121,12 +119,9 @@ public class CS2ReapAndSowAss1 {
             inUsedRow = input[currentRow][currentCollum];
             
             if(input[currentRow][currentCollum - 1] == inUsedRow && 
-                    input[currentRow][currentCollum - 2] == inUsedRow){
-                
+                    input[currentRow][currentCollum - 2] == inUsedRow)				
                 return false;
-            }
         }
-    
         return true;     
    }
     
@@ -141,10 +136,8 @@ public class CS2ReapAndSowAss1 {
             inUsedCollum = input[currentRow][currentCollum];
             
             if(input[currentRow - 1][currentCollum ] == inUsedCollum && 
-                    input[currentRow - 2][currentCollum] == inUsedCollum){
-                
-                return false;
-            }
+                    input[currentRow - 2][currentCollum] == inUsedCollum)
+            	return false;           
         }
         return true;    
    }
@@ -166,13 +159,13 @@ public class CS2ReapAndSowAss1 {
         }
         
         // For cases where the row is at the end and contains too many values of 1.
-        if(inUsedRow > rowMax){
+        if(inUsedRow > rowMax)
             return false;
-        }
+        
         // For cases where the row is at then and does not contain enough values of 1.
-        else if((currentCollum == m - 1) && (inUsedRow < rowMax) ){
+        else if((currentCollum == m - 1) && (inUsedRow < rowMax))
             return false;
-        }       
+              
         return true;
     }
      
@@ -187,19 +180,18 @@ public class CS2ReapAndSowAss1 {
         // Adds up number of square in the current collum  with value of 1.
         for(int i = 0; i < n; i++){
 
-            if(input[i][currentCollum] == 1){
-               inUsedCollum++;             
-            }
+            if(input[i][currentCollum] == 1)
+               inUsedCollum++;                        
         }
         
         // For cases where the collum is at the end and contains too many values of 1.
-        if(inUsedCollum > collumMax){
+        if(inUsedCollum > collumMax)
             return false;
-        }
+        
         // For cases where the collum is at then and does not contain enough values of 1.
-        else if((currentRow == n - 1) && (inUsedCollum < collumMax)){
+        else if((currentRow == n - 1) && (inUsedCollum < collumMax))
             return false;
-        }      
+              
         return true;
     }
     
@@ -222,9 +214,8 @@ public class CS2ReapAndSowAss1 {
          
             for(int i = 0; i < currentRow; i++ ){
                 
-                if(pastSolutionsBinaryRow[i] == currentRowBinary){
-                    return false;
-                }              
+                if(pastSolutionsBinaryRow[i] == currentRowBinary)
+                    return false;                           
             }
             
             pastSolutionsBinaryRow[currentRow] = currentRowBinary;          
@@ -250,21 +241,20 @@ public class CS2ReapAndSowAss1 {
          
             for(int i = 0; i < currentCollum; i++ ){
                 
-                if(pastSolutionsBinaryCollum[i] == currentCollumBinary){
-                    return false;
-                }              
+                if(pastSolutionsBinaryCollum[i] == currentCollumBinary)
+                    return false;                             
             } 
             
             pastSolutionsBinaryCollum[currentCollum] = currentCollumBinary;  
         }
-     return true;
+     	return true;
     }
     
     // Prints thse current state of the grid to the screen.
     public static void printOutput(int n, int m, int output[][], 
-            int  pastSolutionsBinaryRow[], int pastSolutionsBinaryCollum[] ){
+           			int  pastSolutionsBinaryRow[], int pastSolutionsBinaryCollum[] ){
             
-       System.out.print("\n");
+        System.out.print("\n");
        
         // Goes to the ith row and jth collum and prints the value there.
         for(int i = 0; i < n; i++){
